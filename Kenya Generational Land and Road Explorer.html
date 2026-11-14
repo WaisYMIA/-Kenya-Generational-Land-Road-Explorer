@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kenya Generational Land-Banking & KeNHA Corridor Explorer (2026–2046)</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+.chart-container {
+  position: relative;
+  width: 100%;
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+  height: 300px;
+  max-height: 380px;
+}
+@media (min-width: 768px) {
+  .chart-container {
+    height: 340px;
+  }
+}
+body {
+  background-color: #FAF8F5;
+  color: #1E293B;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+</style>
+</head>
+<body class="antialiased selection:bg-emerald-800 selection:text-white">
+
+<!-- Chosen Palette: Warm Stone & Forest Reserve (Background #FAF8F5, Surface #FFFFFF, Primary #1B4332 Forest Green, Secondary #2D6A4F Sage, Accent #B45309 Warm Ochre) -->
+<!-- Application Structure Plan: Designed as a task-oriented generational investment dashboard rather than a linear essay. Structure: (1) Sticky Navigation & Word Export Header for immediate document retrieval; (2) Strategic Overview & Interactive Cohort/Budget Simulator matching child age (9m-7yrs) to 15-20yr compounding & acreage capacity; (3) Filterable Bulk Land Market Explorer (Tiers 1-3 + Frontier Counties) with comparative price charts; (4) KeNHA & LAPSSET Infrastructure Pipeline separating unbuilt design-stage corridors from active construction; and (5) Execution Hub covering Wholesale-to-Retail Arbitrage, Registered Family Trust (Cap 164) legal comparison, Road Reserve setbacks, and an interactive 5-week due diligence checklist. Chosen so a parent can immediately test budgets, filter affordable titled corridors, verify road alignments, and export the full tabular report to Word. -->
+<!-- Visualization & Content Choices: (1) Compounding Wealth Curve (Line Chart, Chart.js Canvas) -> Goal: Change -> Visualizes 15-yr (2041) & 20-yr (2046) nominal growth across 8%-20% CAGR scenarios from Table 6; (2) Corridor Price Comparison (Horizontal Bar Chart, Chart.js Canvas) -> Goal: Compare -> Contrasts min/max KES/acre across top Tier 1-3 corridors from Table 1; (3) KeNHA Delivery & Design Pipeline (Bar Chart, Chart.js Canvas) -> Goal: Inform/Compare -> Highlights the 37.4% FY24/25 construction execution gap (155.4km vs 415.9km) and 811km pre-feasibility pipeline from Section 1 & Table 3; (4) Interactive Filterable Tables & Checklist (HTML/Tailwind + Vanilla JS) -> Goal: Organize -> Presents all 9 report tables without overwhelming page scroll, plus client-side MS Word (.doc) blob generation. CONFIRMING: NO SVG graphics used. NO Mermaid JS used. -->
+<!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+<header class="sticky top-0 z-40 bg-[#FAF8F5]/95 backdrop-blur border-b border-stone-200 shadow-sm">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-3">
+    <div class="flex items-center gap-2.5">
+      <span class="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-[#1B4332] text-amber-300 font-bold text-lg shadow-sm">&#9968;</span>
+      <div>
+        <h1 class="text-base sm:text-lg font-bold text-stone-900 leading-tight">Kenya Generational Land &amp; Road Explorer</h1>
+        <p class="text-xs text-stone-500">15–20 Year Horizon (2026–2046) &bull; USD 1 = KES 130.05</p>
+      </div>
+    </div>
+    <nav class="hidden md:flex items-center gap-5 text-sm font-medium text-stone-600">
+      <a href="#simulator" class="hover:text-[#1B4332] transition-colors">1. Cohort Planner</a>
+      <a href="#land-markets" class="hover:text-[#1B4332] transition-colors">2. Cheap Land Tiers</a>
+      <a href="#road-pipeline" class="hover:text-[#1B4332] transition-colors">3. KeNHA Roads</a>
+      <a href="#legal-diligence" class="hover:text-[#1B4332] transition-colors">4. Trust &amp; Due Diligence</a>
+    </nav>
+    <button id="downloadWordBtn" onclick="exportToWord()" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#1B4332] hover:bg-[#143326] text-white text-sm font-semibold shadow-sm transition-all cursor-pointer">
+      <span>&#128196;</span>
+      <span>Download Word Report (.doc)</span>
+    </button>
+  </div>
+</header>
+
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+
+  <section class="bg-white rounded-2xl border border-stone-200 p-6 sm:p-8 shadow-sm">
+    <div class="max-w-4xl">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-800 text-xs font-semibold mb-4">
+        <span>&#9203; Generational Hold Strategy: Children Aged 9 Months to 7 Years</span>
+      </div>
+      <h2 class="text-2xl sm:text-3xl font-bold text-stone-900 tracking-tight mb-3">
+        Infrastructure-Led Bulk Land-Banking Ahead of Tarmac
+      </h2>
+      <p class="text-stone-600 text-sm sm:text-base leading-relaxed mb-6">
+        This interactive research synthesis translates national road master plans (KeNHA &amp; LAPSSET) and 2025–November 2026 bulk acreage benchmarks into an actionable 15-to-20-year investment framework. Over a 2026–2046 hold, a 9-month-old reaches ages 16–21 while a 7-year-old reaches ages 22–27—turning Kenya's slow road construction pace from a short-term hurdle into a long-term entry discount. Use the modules below to model acreage capacity, filter titled corridors, inspect proposed highways, or export the entire tabular report to Microsoft Word.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="p-4 rounded-xl bg-[#FAF8F5] border border-stone-200">
+        <div class="text-xs font-semibold uppercase tracking-wider text-stone-500">Lowest Titled Bulk Entry</div>
+        <div class="text-2xl font-bold text-[#1B4332] mt-1">KES 60k–95k<span class="text-sm font-normal text-stone-500">/ac</span></div>
+        <div class="text-xs text-stone-600 mt-1">Kitui (Mutomo/Ikutha) &amp; Kilifi (Marafa/Adu) titled blocks</div>
+      </div>
+      <div class="p-4 rounded-xl bg-[#FAF8F5] border border-stone-200">
+        <div class="text-xs font-semibold uppercase tracking-wider text-stone-500">Pre-Feasibility Corridors</div>
+        <div class="text-2xl font-bold text-[#1B4332] mt-1">811 km</div>
+        <div class="text-xs text-stone-600 mt-1">Namanga–Malindi &amp; Lwakhakha–Narok–Magadi links</div>
+      </div>
+      <div class="p-4 rounded-xl bg-[#FAF8F5] border border-stone-200">
+        <div class="text-xs font-semibold uppercase tracking-wider text-stone-500">KeNHA Delivery Gap</div>
+        <div class="text-2xl font-bold text-amber-700 mt-1">37.4% <span class="text-sm font-normal text-stone-500">Built</span></div>
+        <div class="text-xs text-stone-600 mt-1">155.4 km built vs 415.9 km target (FY24/25) keeps entry cheap</div>
+      </div>
+      <div class="p-4 rounded-xl bg-[#FAF8F5] border border-stone-200">
+        <div class="text-xs font-semibold uppercase tracking-wider text-stone-500">Retail Plot Arbitrage</div>
+        <div class="text-2xl font-bold text-[#1B4332] mt-1">2.8x – 32.0x</div>
+        <div class="text-xs text-stone-600 mt-1">Gross spread between bulk acreage &amp; 50x100 ft plots</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="simulator" class="bg-white rounded-2xl border border-stone-200 p-6 sm:p-8 shadow-sm">
+    <div class="mb-6">
+      <h2 class="text-xl sm:text-2xl font-bold text-stone-900">1. Child Age Cohort &amp; Compounding Planner</h2>
+      <p class="text-sm text-stone-600 mt-1 leading-relaxed">
+        Select your child's current age bracket, adjust your investable capital, and test nominal annual appreciation rates (CAGR) to see how many titled acres you can acquire today and how corridor repricing compounds by 2041 (15-year hold) and 2046 (20-year hold). Younger children (9m–3yrs) can absorb longer pre-feasibility road timelines, while older children (4–7yrs) benefit from agribusiness corridors with immediate lease income.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <div class="lg:col-span-5 space-y-5 bg-[#FAF8F5] p-5 rounded-xl border border-stone-200">
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-2">Child Age Cohort</label>
+          <div class="grid grid-cols-2 gap-2">
+            <button type="button" id="cohortABtn" onclick="setCohort('A')" class="p-3 rounded-lg border text-left transition-all bg-[#1B4332] text-white border-[#1B4332] cursor-pointer">
+              <div class="text-sm font-bold">Ages 9m – 3 yrs</div>
+              <div class="text-xs opacity-85">17–20 Yr Hold (2043–2046)</div>
+            </button>
+            <button type="button" id="cohortBBtn" onclick="setCohort('B')" class="p-3 rounded-lg border text-left transition-all bg-white text-stone-700 border-stone-300 hover:border-[#1B4332] cursor-pointer">
+              <div class="text-sm font-bold">Ages 4 – 7 yrs</div>
+              <div class="text-xs opacity-75">15 Yr Hold (2041)</div>
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <div class="flex justify-between text-xs font-bold text-stone-700 mb-1">
+            <span>INVESTABLE BUDGET (KES)</span>
+            <span id="budgetDisplay" class="text-[#1B4332] text-sm">KES 2,000,000 (USD 15,379)</span>
+          </div>
+          <input type="range" id="budgetSlider" min="500000" max="20000000" step="250000" value="2000000" oninput="updateSimulator()" class="w-full accent-[#1B4332] cursor-pointer">
+          <div class="flex justify-between text-[11px] text-stone-400 mt-1">
+            <span>KES 500k</span>
+            <span>KES 5M</span>
+            <span>KES 10M</span>
+            <span>KES 20M</span>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1">Target Entry Corridor Benchmark</label>
+          <select id="corridorSelect" onchange="updateSimulator()" class="w-full p-2.5 rounded-lg border border-stone-300 bg-white text-sm text-stone-800 focus:outline-none focus:border-[#1B4332]">
+            <option value="67500">Tier 1: Kitui (Mutomo / Ikutha Titled) — Avg KES 67,500/ac</option>
+            <option value="87500">Tier 1: Kilifi (Marafa / Adu / Dakacha Titled) — Avg KES 87,500/ac</option>
+            <option value="160000">Tier 2: Baringo (Mogotio Agribusiness) — Avg KES 160,000/ac</option>
+            <option value="230000">Tier 2: Narok (Mai Mahiu – Duka Moja) — Avg KES 230,000/ac</option>
+            <option value="247500">Tier 2: Kitui (Mwingi Ngomeni / Near-Tarmac) — Avg KES 247,500/ac</option>
+            <option value="325000">Tier 2: Kajiado (Mashuru / Imaroro Riverfront) — Avg KES 325,000/ac</option>
+            <option value="325000">Tier 2: Narok (Narok–Bomet Wheat Belt) — Avg KES 325,000/ac</option>
+          </select>
+        </div>
+
+        <div>
+          <div class="flex justify-between text-xs font-bold text-stone-700 mb-1">
+            <span>NOMINAL ANNUAL GROWTH (CAGR)</span>
+            <span id="cagrDisplay" class="text-amber-700 text-sm">15.0% (Confirmed Tarmac Scenario)</span>
+          </div>
+          <input type="range" id="cagrSlider" min="8" max="20" step="1" value="15" oninput="updateSimulator()" class="w-full accent-amber-700 cursor-pointer">
+          <div class="flex justify-between text-[11px] text-stone-400 mt-1">
+            <span>8% (Base)</span>
+            <span>12% (Grading)</span>
+            <span>15% (Tarmac)</span>
+            <span>20% (Junction)</span>
+          </div>
+        </div>
+
+        <div id="cohortRecommendation" class="p-3.5 rounded-lg bg-emerald-50 border border-emerald-200 text-xs text-emerald-950 leading-relaxed">
+        </div>
+      </div>
+
+      <div class="lg:col-span-7 space-y-4">
+        <div class="grid grid-cols-3 gap-3">
+          <div class="p-3.5 rounded-xl bg-[#FAF8F5] border border-stone-200">
+            <div class="text-[11px] font-semibold uppercase text-stone-500">Net Acquirable Acreage</div>
+            <div id="acresResult" class="text-xl sm:text-2xl font-bold text-[#1B4332] mt-0.5">27.3 Acres</div>
+            <div class="text-[11px] text-stone-500 mt-0.5">Net of 2% duty &amp; KES 75k survey</div>
+          </div>
+          <div class="p-3.5 rounded-xl bg-[#FAF8F5] border border-stone-200">
+            <div class="text-[11px] font-semibold uppercase text-stone-500">2041 Value (15 Yrs)</div>
+            <div id="val15Result" class="text-xl sm:text-2xl font-bold text-stone-900 mt-0.5">KES 16.27M</div>
+            <div id="mult15Result" class="text-[11px] text-emerald-700 font-semibold mt-0.5">8.14x Multiple</div>
+          </div>
+          <div class="p-3.5 rounded-xl bg-[#FAF8F5] border border-stone-200">
+            <div class="text-[11px] font-semibold uppercase text-stone-500">2046 Value (20 Yrs)</div>
+            <div id="val20Result" class="text-xl sm:text-2xl font-bold text-amber-700 mt-0.5">KES 32.73M</div>
+            <div id="mult20Result" class="text-[11px] text-amber-800 font-semibold mt-0.5">16.37x Multiple</div>
+          </div>
+        </div>
+
+        <div class="bg-[#FAF8F5] p-4 rounded-xl border border-stone-200">
+          <div class="text-xs font-bold uppercase tracking-wider text-stone-600 mb-2 text-center">Illustrative Nominal Portfolio Trajectory (2026–2046)</div>
+          <div class="chart-container">
+            <canvas id="compoundingChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="land-markets" class="bg-white rounded-2xl border border-stone-200 p-6 sm:p-8 shadow-sm">
+    <div class="mb-6">
+      <h2 class="text-xl sm:text-2xl font-bold text-stone-900">2. Cheapest Bulk Land Benchmarks Across Kenya</h2>
+      <p class="text-sm text-stone-600 mt-1 leading-relaxed">
+        Explore verified 2025–November 2026 seller and brokerage asking prices segmented into three entry tiers, plus frontier counties where open-market freehold listings are absent. Filter by price tier, county, or title status to compare per-acre KES/USD costs against adjacent road catalysts. Always distinguish adjudication-stage parcels awaiting title from verified freehold deeds.
+      </p>
+    </div>
+
+    <div class="mb-8 bg-[#FAF8F5] p-4 rounded-xl border border-stone-200">
+      <div class="text-xs font-bold uppercase tracking-wider text-stone-600 mb-2 text-center">Entry Price Range by Bulk Land Corridor (KES Thousands / Acre)</div>
+      <div class="chart-container">
+        <canvas id="landPriceChart"></canvas>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <div class="flex flex-wrap gap-2">
+        <button onclick="filterLand('ALL')" id="tierBtnALL" class="tier-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#1B4332] text-white cursor-pointer">All Tiers (25)</button>
+        <button onclick="filterLand('Tier 1')" id="tierBtnTier 1" class="tier-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-stone-100 text-stone-700 hover:bg-stone-200 cursor-pointer">Tier 1: KES 18k–100k</button>
+        <button onclick="filterLand('Tier 2')" id="tierBtnTier 2" class="tier-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-stone-100 text-stone-700 hover:bg-stone-200 cursor-pointer">Tier 2: KES 150k–450k</button>
+        <button onclick="filterLand('Tier 3')" id="tierBtnTier 3" class="tier-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-stone-100 text-stone-700 hover:bg-stone-200 cursor-pointer">Tier 3: KES 350k–1M</button>
+        <button onclick="filterLand('Frontier')" id="tierBtnFrontier" class="tier-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200 hover:bg-amber-100 cursor-pointer">Frontier / No Portal Data</button>
+      </div>
+      <input type="text" id="landSearch" oninput="renderLandTable()" placeholder="Search county, locality, or road..." class="px-3 py-1.5 rounded-lg border border-stone-300 text-xs w-full sm:w-64 focus:outline-none focus:border-[#1B4332]">
+    </div>
+
+    <div class="overflow-x-auto rounded-xl border border-stone-200">
+      <table class="min-w-full divide-y divide-stone-200 text-left text-xs">
+        <thead class="bg-stone-100 text-stone-700 font-bold uppercase tracking-wider">
+          <tr>
+            <th class="px-3 py-3">Tier</th>
+            <th class="px-3 py-3">County &amp; Locality</th>
+            <th class="px-3 py-3">Typical Bulk Size</th>
+            <th class="px-3 py-3">Price / Acre (KES)</th>
+            <th class="px-3 py-3">Price / Acre (USD)</th>
+            <th class="px-3 py-3">Title &amp; Access Status</th>
+            <th class="px-3 py-3">Primary Catalyst &amp; Notes</th>
+          </tr>
+        </thead>
+        <tbody id="landTableBody" class="divide-y divide-stone-200 bg-white"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="road-pipeline" class="bg-white rounded-2xl border border-stone-200 p-6 sm:p-8 shadow-sm">
+    <div class="mb-6">
+      <h2 class="text-xl sm:text-2xl font-bold text-stone-900">3. Undeveloped &amp; Active KeNHA / LAPSSET Road Network</h2>
+      <p class="text-sm text-stone-600 mt-1 leading-relaxed">
+        According to KeNHA's FY 2024/2025 Annual Report (published June 2026), land repricing occurs most dramatically when buyers enter during pre-feasibility, feasibility, or design stages prior to physical mobilization. Toggle between unbuilt pipeline projects and active trunk construction to match your target counties with upcoming Class S, A, and B infrastructure.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6 items-center">
+      <div class="lg:col-span-7 bg-[#FAF8F5] p-4 rounded-xl border border-stone-200">
+        <div class="text-xs font-bold uppercase tracking-wider text-stone-600 mb-2 text-center">KeNHA Road Pipeline &amp; FY 2024/25 Execution (Kilometers)</div>
+        <div class="chart-container">
+          <canvas id="roadPipelineChart"></canvas>
+        </div>
+      </div>
+      <div class="lg:col-span-5 space-y-3">
+        <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200">
+          <div class="text-xs font-bold uppercase text-emerald-900">Top Unbuilt Pre-Feasibility Links (811 km)</div>
+          <p class="text-xs text-emerald-800 mt-1 leading-relaxed">
+            <strong>Corridor 1 (Namanga–Amboseli–Manyani–Sala Gate–Malindi):</strong> Directly connects southern Kajiado and Tsavo into Kilifi's Magarini/Marafa hinterland (KES 80k–95k/ac titled).
+          </p>
+          <p class="text-xs text-emerald-800 mt-2 leading-relaxed">
+            <strong>Corridor 2 (Lwakhakha–Kehancha–Lolgorian–Ololunga–Narosura–Magadi–Corner Baridi):</strong> Cuts across Narok's wheat/pasture belt (KES 300k–550k/ac) into Kajiado West.
+          </p>
+        </div>
+        <div class="p-4 rounded-xl bg-amber-50 border border-amber-200">
+          <div class="text-xs font-bold uppercase text-amber-900">Completed Design-Stage Corridors</div>
+          <p class="text-xs text-amber-800 mt-1 leading-relaxed">
+            <strong>Final Design:</strong> Katulani–Kavisuni–Wote &amp; Wikiliye–Katulani B61 (100 km) anchoring Kitui's sub-KES 75k/ac interior.<br>
+            <strong>Draft Final Design:</strong> Kitui Turnoff–Ukasi–Garissa A3 (240 km across Lots 1 &amp; 2) &amp; Dif–Wajir–Buna–Moyale A14 (250 km).
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap gap-2 mb-4">
+      <button onclick="switchRoadTab('unbuilt')" id="roadTabUnbuilt" class="px-4 py-2 rounded-lg text-xs font-bold bg-[#1B4332] text-white cursor-pointer">
+        Unbuilt / Pre-Feasibility / Design Stage (15 Corridors)
+      </button>
+      <button onclick="switchRoadTab('active')" id="roadTabActive" class="px-4 py-2 rounded-lg text-xs font-bold bg-stone-100 text-stone-700 hover:bg-stone-200 cursor-pointer">
+        Active / Ongoing Trunk &amp; LAPSSET Roads (12 Corridors)
+      </button>
+    </div>
+
+    <div class="overflow-x-auto rounded-xl border border-stone-200">
+      <table class="min-w-full divide-y divide-stone-200 text-left text-xs">
+        <thead class="bg-stone-100 text-stone-700 font-bold uppercase tracking-wider">
+          <tr>
+            <th class="px-3 py-3">Corridor / Project Name</th>
+            <th class="px-3 py-3">Length</th>
+            <th class="px-3 py-3">Counties &amp; Alignment</th>
+            <th class="px-3 py-3">Status (2024–2026)</th>
+            <th class="px-3 py-3">Land-Banking Relevance</th>
+          </tr>
+        </thead>
+        <tbody id="roadTableBody" class="divide-y divide-stone-200 bg-white"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="legal-diligence" class="bg-white rounded-2xl border border-stone-200 p-6 sm:p-8 shadow-sm">
+    <div class="mb-6">
+      <h2 class="text-xl sm:text-2xl font-bold text-stone-900">4. Arbitrage, Registered Family Trust &amp; Due Diligence Hub</h2>
+      <p class="text-sm text-stone-600 mt-1 leading-relaxed">
+        Preserving multi-acre wealth over 15 to 20 years requires selecting the right legal vehicle for minor children, respecting KeNHA centerline road reserves, and completing a five-week physical and registry audit before releasing funds. Switch tabs below to review plot arbitrage spreads, compare legal structures, verify road setback widths, and track pre-purchase checks.
+      </p>
+    </div>
+
+    <div class="flex flex-wrap gap-2 border-b border-stone-200 pb-3 mb-6">
+      <button onclick="switchExecTab('trust')" id="execTabTrust" class="px-3.5 py-2 rounded-lg text-xs font-bold bg-[#1B4332] text-white cursor-pointer">Legal Structure (Minors)</button>
+      <button onclick="switchExecTab('arbitrage')" id="execTabArbitrage" class="px-3.5 py-2 rounded-lg text-xs font-bold bg-stone-100 text-stone-700 hover:bg-stone-200 cursor-pointer">50x100 Arbitrage &amp; Yield</button>
+      <button onclick="switchExecTab('reserves')" id="execTabReserves" class="px-3.5 py-2 rounded-lg text-xs font-bold bg-stone-100 text-stone-700 hover:bg-stone-200 cursor-pointer">Road Reserve Widths</button>
+      <button onclick="switchExecTab('checklist')" id="execTabChecklist" class="px-3.5 py-2 rounded-lg text-xs font-bold bg-stone-100 text-stone-700 hover:bg-stone-200 cursor-pointer">5-Week Verification Checklist</button>
+    </div>
+
+    <div id="execContentTrust" class="space-y-4">
+      <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-950 leading-relaxed">
+        <strong>Recommended Structure:</strong> Incorporate a non-trading <strong>Registered Family Trust under the Trustees (Perpetual Succession) Act (Cap 164)</strong> within the statutory 60-day Registry window (KES 500 registration duty). Title vests directly in the trust's corporate name, bypassing court probate, preventing minor repudiation at age 18 under Section 49 of the Land Registration Act, and allowing delayed vesting (e.g., age 25 or postgraduate completion) overseen by an independent Enforcer.
+      </div>
+      <div class="overflow-x-auto rounded-xl border border-stone-200">
+        <table class="min-w-full divide-y divide-stone-200 text-left text-xs">
+          <thead class="bg-stone-100 text-stone-700 font-bold uppercase tracking-wider">
+            <tr>
+              <th class="px-3 py-3">Dimension</th>
+              <th class="px-3 py-3 bg-emerald-50/70">Registered Family Trust (Cap 164)</th>
+              <th class="px-3 py-3">Direct Transfer / Gift to Minor</th>
+              <th class="px-3 py-3">Wholly-Owned Family Company</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-stone-200 bg-white">
+            <tr>
+              <td class="px-3 py-2.5 font-semibold">Continuity &amp; Probate</td>
+              <td class="px-3 py-2.5 bg-emerald-50/30">Body corporate with perpetual succession; bypasses probate completely</td>
+              <td class="px-3 py-2.5">Held by guardian as trustee; parental death complicates administration</td>
+              <td class="px-3 py-2.5">Separate corporate entity; parent shares pass via estate or share trust</td>
+            </tr>
+            <tr>
+              <td class="px-3 py-2.5 font-semibold">Stamp Duty Rules</td>
+              <td class="px-3 py-2.5 bg-emerald-50/30">2% rural / 4% municipal on third-party purchase; settling family land in &amp; distributing to adult beneficiaries (s.52(6)) are exempt</td>
+              <td class="px-3 py-2.5">Attracts 2% rural or 4% municipal Stamp Duty on assessed market value</td>
+              <td class="px-3 py-2.5">Transfer of family property into wholly family-owned company is exempt; 1% duty on gifted shares</td>
+            </tr>
+            <tr>
+              <td class="px-3 py-2.5 font-semibold">CGT &amp; Income Tax</td>
+              <td class="px-3 py-2.5 bg-emerald-50/30">Transfers into trust exempt from 15% CGT; qualifying distributions up to KES 10M/yr tax-exempt (earned rent/farm income taxable)</td>
+              <td class="px-3 py-2.5">Future sale by adult child attracts 15% Capital Gains Tax</td>
+              <td class="px-3 py-2.5">Corporate tax and 15% CGT apply upon corporate land sales</td>
+            </tr>
+            <tr>
+              <td class="px-3 py-2.5 font-semibold">Active Trading vs Hold</td>
+              <td class="px-3 py-2.5 bg-emerald-50/30">Statutorily restricted to non-trading wealth preservation (s.3D); distribute parcels at maturity for commercial subdivision</td>
+              <td class="px-3 py-2.5">Unrestricted once child reaches adulthood</td>
+              <td class="px-3 py-2.5">Permitted to farm, subdivide, and actively trade retail plots commercially</td>
+            </tr>
+            <tr>
+              <td class="px-3 py-2.5 font-semibold">Minor Governance Risk</td>
+              <td class="px-3 py-2.5 bg-emerald-50/30">Independent Enforcer checks Trustees; deed can delay vesting past age 18</td>
+              <td class="px-3 py-2.5 text-amber-800 font-medium">Section 49 LRA lets child repudiate gift within 6 months of turning 18</td>
+              <td class="px-3 py-2.5">Adult shareholders hold shares in trust and retain corporate voting control</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="execContentArbitrage" class="hidden space-y-4">
+      <div class="overflow-x-auto rounded-xl border border-stone-200">
+        <table class="min-w-full divide-y divide-stone-200 text-left text-xs">
+          <thead class="bg-stone-100 text-stone-700 font-bold uppercase tracking-wider">
+            <tr>
+              <th class="px-3 py-3">Corridor / Market</th>
+              <th class="px-3 py-3">Retail 50x100 Plot Price</th>
+              <th class="px-3 py-3">Gross Acre Equivalent (8 Plots)</th>
+              <th class="px-3 py-3">Bulk Farmland Benchmark</th>
+              <th class="px-3 py-3">Gross Multiple (Pre-Costs)</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-stone-200 bg-white">
+            <tr>
+              <td class="px-3 py-2.5 font-semibold">Machakos Outer (Matuu / Masinga / Kivandini)</td>
+              <td class="px-3 py-2.5">KES 195,000–500,000</td>
+              <td class="px-3 py-2.5">KES 1,560,000–4,000,000</td>
+              <td class="px-3 py-2.5">KES 550,000/ac (Kithyoko)</td>
+              <td class="px-3 py-2.5 font-bold text-[#1B4332]">2.8x – 7.3x</td>
+            </tr>
+            <tr>
+              <td class="px-3 py-2.5 font-semibold">Narok County (Narok Town vs Narok–Bomet Bulk)</td>
+              <td class="px-3 py-2.5">KES 650,000–1,400,000</td>
+              <td class="px-3 py-2.5">KES 5,200,000–11,200,000</td>
+              <td class="px-3 py-2.5">KES 300,000–350,000/ac</td>
+              <td class="px-3 py-2.5 font-bold text-[#1B4332]">14.9x – 32.0x</td>
+            </tr>
+            <tr>
+              <td class="px-3 py-2.5 font-semibold">Kilifi (Vipingo/Adu Luxury vs Marafa/Adu Bulk)</td>
+              <td class="px-3 py-2.5">KES 1,950,000</td>
+              <td class="px-3 py-2.5">KES 15,600,000</td>
+              <td class="px-3 py-2.5">KES 80,000–100,000/ac</td>
+              <td class="px-3 py-2.5 font-bold text-amber-700">156.0x (Luxury outlier)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+        <div class="p-3.5 rounded-xl bg-[#FAF8F5] border border-stone-200">
+          <div class="font-bold text-stone-900">Arable Bare-Land Leases</div>
+          <p class="text-stone-600 mt-1">Narok wheat/barley/Rhodes grass leases fetch <strong>KES 7,000–15,000/ac/yr</strong> (2.3%–5.0% gross yield on KES 300k land) while keeping boundaries occupied.</p>
+        </div>
+        <div class="p-3.5 rounded-xl bg-[#FAF8F5] border border-stone-200">
+          <div class="font-bold text-stone-900">Dryland Seed &amp; Agroforestry</div>
+          <p class="text-stone-600 mt-1">Kitui pasture grass seed averages <strong>30 kg/acre</strong> (Mutomo, Tseikuru, Mwingi, Ukasi); Kilifi deep virgin soils support mango, export fruit &amp; timber.</p>
+        </div>
+        <div class="p-3.5 rounded-xl bg-[#FAF8F5] border border-stone-200">
+          <div class="font-bold text-stone-900">KeNHA Roadside Stations</div>
+          <p class="text-stone-600 mt-1">Under 2023 Regulations, unencumbered parcels within <strong>600m</strong> of Class S/A/B/C highways (outside reserve) qualify for Roadside Station licensing.</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="execContentReserves" class="hidden space-y-4">
+      <div class="overflow-x-auto rounded-xl border border-stone-200">
+        <table class="min-w-full divide-y divide-stone-200 text-left text-xs">
+          <thead class="bg-stone-100 text-stone-700 font-bold uppercase tracking-wider">
+            <tr>
+              <th class="px-3 py-3">Road Class / Corridor</th>
+              <th class="px-3 py-3">Official Design Manual / KeNHA Spec</th>
+              <th class="px-3 py-3">Conservative Field Surveyor Guideline</th>
+              <th class="px-3 py-3">Regulatory Rule</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-stone-200 bg-white">
+            <tr>
+              <td class="px-3 py-2.5 font-semibold">Class S &amp; Class A (International Trunk)</td>
+              <td class="px-3 py-2.5">60m total (KeNHA Wajir–Tarbaj A13 tender; RDM urban arterial 60m desirable)</td>
+              <td class="px-3 py-2.5 font-semibold text-amber-800">Up to 60m from centerline (120m total) on major international corridors</td>
+              <td class="px-3 py-2.5">KeNHA General Regulations 2025 require DG written approval for access roads &amp; pipe crossings</td>
+            </tr>
+            <tr>
+              <td class="px-3 py-2.5 font-semibold">Class B (National Trunk Roads)</td>
+              <td class="px-3 py-2.5">60m desirable / 40m reduced (Kenya RDM Vol. 1 Part 3)</td>
+              <td class="px-3 py-2.5">45m benchmark</td>
+              <td class="px-3 py-2.5">Physical &amp; Land Use Planning Act 2019 prohibits structures inside reserve</td>
+            </tr>
+            <tr>
+              <td class="px-3 py-2.5 font-semibold">Class C (Primary / Secondary Roads)</td>
+              <td class="px-3 py-2.5">40m desirable (Kenya RDM Vol. 1 Part 3)</td>
+              <td class="px-3 py-2.5">30m benchmark</td>
+              <td class="px-3 py-2.5">KeNHA / KeRRA depending on classification register</td>
+            </tr>
+            <tr>
+              <td class="px-3 py-2.5 font-semibold">Class D &amp; E (Minor / Access Roads)</td>
+              <td class="px-3 py-2.5">Narrower variable lane &amp; reserve standards</td>
+              <td class="px-3 py-2.5">Class D: 20m; Class E: 15m</td>
+              <td class="px-3 py-2.5">KeRRA / KURA / County Governments</td>
+            </tr>
+            <tr>
+              <td class="px-3 py-2.5 font-semibold">Railways &amp; Utility Wayleaves</td>
+              <td class="px-3 py-2.5">Verify physical markers &amp; registered easements</td>
+              <td class="px-3 py-2.5">Railways: 30m each side (60m total); Power/Water wayleaves: 5–30m</td>
+              <td class="px-3 py-2.5">Kenya Railways, Kenya Power, Water &amp; Telecom operators</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="execContentChecklist" class="hidden space-y-3">
+      <p class="text-xs text-stone-600">Interactive 5-week pre-purchase verification protocol (estimated cost: KES 18,000–53,000 excluding advocate conveyancing fees). Check off steps as you evaluate a parcel:</p>
+      <div id="checklistItems" class="space-y-2"></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="border-t border-stone-200 bg-white mt-12 py-6 text-center text-xs text-stone-500">
+  <div class="max-w-7xl mx-auto px-4">
+    Data sourced from KeNHA FY 2024/2025 Annual Report (June 2026), Kenya Roads Board RMLF Plans, LAPSSET Corridor Development Authority, and 2025–November 2026 Kenyan land market listings (USD 1 = KES 130.05). Click <strong>Download Word Report (.doc)</strong> in the top bar for the complete offline document with all 9 tables.
+  </div>
+</footer>
+
+<script>
+const landData = [
+  { tier: "Tier 1", county: "Kilifi (Magarini)", locality: "Kamale, Changoto & Mogole Chamari (Adu Ward)", size: "70–4,000 acres", kes: "18,000–25,000", usd: "138–192", status: "Virgin/black soil blocks; verify individual title", catalyst: "Mega-scale farming & hinterland banking (Beibora aggregator; exclude KES 4,375/ac Ramada outlier)" },
+  { tier: "Tier 1", county: "Kilifi (Magarini)", locality: "Sokoke / Adu Ward", size: "35–750 acres", kes: "29,500–65,000", usd: "227–500", status: "35 ac awaiting title; 750 ac agricultural", catalyst: "Magarini road upgrades & Baricho Bridge spillover; awaiting-title risk on lowest quote" },
+  { tier: "Tier 1", county: "Kitui (Mutomo)", locality: "Deep interior (40–45 km off tarmac)", size: "14–10,000 acres", kes: "45,000–50,000", usd: "346–384", status: "Adjudication numbers awaiting title issuance", catalyst: "Goat keeping, beekeeping, dryland banking; wait for title conversion before paying" },
+  { tier: "Tier 1", county: "Kitui (Mutomo)", locality: "Mutha (Ilamba, Simisi, Kiamata Ndakani)", size: "100–120 acres", kes: "47,000–55,000", usd: "361–423", status: "10–15 km from Mutha town; verify title status", catalyst: "Large-scale dryland farming & livestock" },
+  { tier: "Tier 1", county: "Kitui (Mutomo / Ikutha)", locality: "Mutomo interior & Ikutha", size: "27–130 acres", kes: "60,000–75,000", usd: "461–577", status: "Advertised with clean title deeds; power near select lots", catalyst: "Lowest-cost titled farming; Katulani–Wote B61 corridor region" },
+  { tier: "Tier 1", county: "Kilifi (Magarini)", locality: "Marafa, Adu–Kadzandani & Dakacha", size: "27–41 acres", kes: "80,000–95,000", usd: "615–730", status: "Clean freehold title claimed; 8 km off Baricho Rd", catalyst: "Export fruit, timber & Malindi–Sala Gate pre-feasibility Corridor 1" },
+  { tier: "Tier 1", county: "Kilifi (Magarini)", locality: "Nyarega, Marafa", size: "1 acre", kes: "100,000", usd: "769", status: "Undeveloped; gravel road access", catalyst: "Marafa–Sosoni road upgrade spillover" },
+  { tier: "Tier 2", county: "Kilifi (Magarini)", locality: "Marafa / Adu Ward", size: "4.8–32 acres", kes: "150,000", usd: "1,153", status: "Fertile mixed-use coastal farmland", catalyst: "Smaller-ticket coastal agriculture & banking" },
+  { tier: "Tier 2", county: "Baringo (Mogotio)", locality: "Mogotio", size: "10 acres", kes: "160,000", usd: "1,230", status: "Accessible agribusiness parcel", catalyst: "Commercial farming & regional Rift hub" },
+  { tier: "Tier 2", county: "Taita Taveta / Kwale", locality: "County border mega-ranch", size: "37,500 acres", kes: "180,000", usd: "1,384", status: "Adjacent to 68,000-acre estate", catalyst: "Institutional ranching or mega-scale estate" },
+  { tier: "Tier 2", county: "Taita Taveta (Taveta)", locality: "Mata (8 km from Taveta town)", size: "15–19 acres", kes: "200,000", usd: "1,538", status: "Clean title deeds claimed; ~7 km from Lake Jipe", catalyst: "Historical Aug 2025 off-market benchmark; cross-border agri & eco-tourism" },
+  { tier: "Tier 2", county: "Narok", locality: "Mai Mahiu – Duka Moja border", size: "1,000 acres", kes: "230,000", usd: "1,769", status: "Arable commercial agricultural land", catalyst: "Rironi–Mau Summit & Mai Mahiu logistics spillover" },
+  { tier: "Tier 2", county: "Kitui (Mwingi North)", locality: "Ngomeni Ward & near-tarmac (1.5 km out)", size: "Bulk rural", kes: "245,000–250,000", usd: "1,884–1,922", status: "Cash agricultural pricing", catalyst: "Kitui–Ukasi–Garissa A3 draft final design corridor" },
+  { tier: "Tier 2", county: "Laikipia (Laikipia West)", locality: "Rumuruti", size: "Bulk rural", kes: "250,000–450,000", usd: "1,922–3,460", status: "Rural agricultural range", catalyst: "Laikipia county headquarters & ranching corridor" },
+  { tier: "Tier 2", county: "Kajiado (Kajiado East)", locality: "Mashuru / Imaroro", size: "6–10+ acres", kes: "300,000–350,000", usd: "2,307–2,691", status: "Red soil, riverfront, 3 km from tarmac", catalyst: "Greater Nairobi southern expansion corridor" },
+  { tier: "Tier 2", county: "Narok", locality: "Narok–Bomet highway corridor", size: "170–1,000 acres", kes: "300,000–350,000", usd: "2,307–2,691", status: "Freehold title claimed; 6 km off highway; river", catalyst: "Immediate wheat/barley leasing (KES 7k–15k/ac/yr)" },
+  { tier: "Tier 3", county: "Kitui", locality: "River Athi / Athi Market (7 km out)", size: "3–594 acres", kes: "350,000–380,000", usd: "2,691–2,922", status: "Title deed claimed; direct River Athi frontage", catalyst: "Perennial-water ranching & irrigated agriculture" },
+  { tier: "Tier 3", county: "Kitui / Machakos Border", locality: "Katangi Kyua", size: "4 acres", kes: "350,000", usd: "2,691", status: "Rural agricultural parcel", catalyst: "Thika–Garissa–Kitui transport corridor" },
+  { tier: "Tier 3", county: "Narok", locality: "Oldonyorasha (Narosura Rd)", size: "50–168 acres", kes: "380,000", usd: "2,922", status: "1.5 km from Narok–Narosura Rd; 30 km from CBD", catalyst: "Direct alignment with KeNHA Corridor 2 (Narosura–Magadi)" },
+  { tier: "Tier 3", county: "Kilifi (Magarini)", locality: "Malindi–Marafa Road", size: "22 acres", kes: "450,000", usd: "3,460", status: "Direct road frontage; utilities accessible", catalyst: "Commercial frontage & future retail subdivision play" },
+  { tier: "Tier 3", county: "Narok", locality: "Ololulunga / Olepolos (& wider bulk)", size: "35–1,500 acres", kes: "500,000–550,000", usd: "3,845–4,229", status: "Flat arable agricultural land; 6 km off tarmac", catalyst: "Junction node on KeNHA Lolgorian–Ololunga–Magadi arc" },
+  { tier: "Tier 3", county: "Machakos (Yatta)", locality: "Kithyoko (Matuu) & Ekalakala", size: "5–14 acres", kes: "550,000–900,000", usd: "4,229–6,920", status: "800m off tarmac (Kithyoko); 3 km from Ekalakala", catalyst: "Thika–Garissa corridor urbanization & retail plot spillover" },
+  { tier: "Tier 3", county: "Taita Taveta (Taveta)", locality: "Kishota, Taveta", size: "5–7 acres", kes: "640,000–650,000", usd: "4,921–4,998", status: "Ready titles, serviced with water & electricity", catalyst: "Cross-border market & Kilimanjaro tourism node" },
+  { tier: "Tier 3", county: "Narok", locality: "Esupetai (Narok–Maasai Mara Rd)", size: "20 acres", kes: "800,000", usd: "6,151", status: "Direct tarmac frontage; flat terrain", catalyst: "Tourism-corridor commercial development" },
+  { tier: "Tier 3", county: "Taita Taveta", locality: "Sagala (near Mombasa Road)", size: "22,000 acres", kes: "1,000,000", usd: "7,689", status: "Mega-farm near highway (frontage KES 3.5M/ac)", catalyst: "Nairobi–Mombasa PPP Expressway corridor" },
+  { tier: "Frontier", county: "Tana River", locality: "Bura, Hola, Garsen", size: "Scheme leases", kes: "No portal freehold", usd: "N/A", status: "Bura Irrigation Scheme Phase 2 leases observed", catalyst: "Lamu–Witu–Garsen (113 km) & LAPSSET; separate scheme leases from freehold" },
+  { tier: "Frontier", county: "Lamu", locality: "Hindi (Bora Imani), Witu, Mokowe", size: "4 acres (Hindi)", kes: "6,000,000 (Hindi)", usd: "46,136", status: "Port fringe already repriced; no cheap portal bulk", catalyst: "Lamu Port & refinery groundbreaking; scout inland Witu/Garsen personally" },
+  { tier: "Frontier", county: "Northern LAPSSET (7 Counties)", locality: "Garissa, Wajir, Mandera, Isiolo, Marsabit, Samburu, Turkana", size: "Unlisted", kes: "No portal freehold", usd: "N/A", status: "High prevalence of community / unadjudicated land", catalyst: "Isiolo–Modogashe (205 km) & A14 (250 km); buy only verified freehold" },
+  { tier: "Frontier", county: "Western, Nyanza & North Rift", locality: "Bungoma, Migori, Elgeyo Marakwet, Nandi, Kisumu, Trans Nzoia", size: "Unlisted", kes: "No portal freehold", usd: "N/A", status: "Off-portal local market", catalyst: "Lwakhakha–Kehancha pre-feasibility & Barpello–Tot–Marich Pass (124.5 km)" }
+];
+
+const unbuiltRoads = [
+  { name: "Corridor 1: Namanga – Amboseli – Manyani – Sala Gate – Malindi", length: "Part of 811 km", counties: "Kajiado South, Makueni, Taita Taveta, Kilifi (Sala Gate to Malindi)", status: "Pre-feasibility completed (FY24/25)", relevance: "Pairs directly with Kilifi Magarini/Marafa/Dakacha titled land @ KES 80k–95k/ac" },
+  { name: "Corridor 2: Lwakhakha – Kehancha – Lolgorian – Ololunga – Narosura – Magadi – Corner Baridi", length: "Part of 811 km", counties: "Bungoma, Migori, Narok (Lolgorian, Ololunga, Narosura), Kajiado West", status: "Pre-feasibility completed (FY24/25)", relevance: "Anchors Narok Oldonyorasha (KES 380k/ac) & Ololulunga (KES 500k–550k/ac)" },
+  { name: "20 Priority Bridge Projects", length: "N/A", counties: "Nationwide priority river crossings", status: "Pre-feasibility completed", relevance: "Bridges unlock isolated hinterlands (similar to KES 2.55B Baricho Bridge in Kilifi)" },
+  { name: "Biretwo – Aror – Chesongoch Road", length: "Unspecified", counties: "Elgeyo Marakwet (Kerio Valley)", status: "Full feasibility completed", relevance: "Scout locally near Baringo border (Mogotio benchmark KES 160k/ac)" },
+  { name: "Kimondi – Baraton – Turbo Road", length: "Unspecified", counties: "Nandi & Uasin Gishu", status: "Full feasibility completed", relevance: "North Rift agricultural corridor" },
+  { name: "Katulani – Kavisuni – Wote & Wikiliye – Katulani (B61)", length: "100 km", counties: "Kitui & Makueni", status: "Final design completed", relevance: "Catalyzes Kitui titled interior (Mutomo/Ikutha @ KES 60k–75k/ac)" },
+  { name: "Eldoret Eastern Bypass & Eldoret Town Dualing", length: "40 km + 36 km", counties: "Uasin Gishu", status: "Final design completed", relevance: "Mature urban perimeter; lifts surrounding North Rift land values" },
+  { name: "Kitui Turnoff (A9/A3 Jnc) – Ukasi Town (A3) Lot 1", length: "105 km", counties: "Machakos/Kitui border through Mwingi to Ukasi", status: "Draft final design stage", relevance: "Directly serves Katangi Kyua (KES 350k/ac) & Mwingi/near-tarmac (KES 245k–250k/ac)" },
+  { name: "Ukasi Town – Garissa – Modika Junction (A3) Lot 2", length: "135 km", counties: "Kitui East, Tana River border, Garissa", status: "Draft final design stage", relevance: "Extends A3 tarmac spine toward LAPSSET; verify freehold titles east of Ukasi" },
+  { name: "Dif – Wajir – Buna – A2 Moyale (A14)", length: "250 km", counties: "Wajir & Marsabit", status: "Draft final design stage", relevance: "Frontier ASAL trade route; lacks liquid freehold market" },
+  { name: "Additional Priority Road Links", length: "750 km", counties: "Nationwide priority links", status: "Draft design stage", relevance: "Monitor KeNHA RAP & procurement notices for newly published alignments" },
+  { name: "Nairobi – Mombasa PPP Expressway", length: "Unspecified", counties: "Nairobi, Machakos, Makueni, Taita Taveta, Kwale, Kilifi, Mombasa", status: "PPP project under assessment", relevance: "Supports Taita Taveta Sagala (KES 1M/ac) & Taita/Kwale mega-ranch (KES 180k/ac)" },
+  { name: "Rironi – Nakuru – Mau Summit PPP Road", length: "Unspecified", counties: "Kiambu, Nakuru", status: "PIPs reviewed & tolling feasibility done", relevance: "Indirect logistics catalyst for Narok Mai Mahiu–Duka Moja (KES 230k/ac)" }
+];
+
+const activeRoads = [
+  { name: "Lamu – Garissa – Isiolo Highway (+ Isiolo–Mwingi branch)", length: "530–603 km", counties: "Lamu, Tana River, Garissa, Isiolo, Kitui (Mwingi)", status: "Ongoing/active (KeNHA FY25 Report)", relevance: "Long-term freight backbone anchoring eastern Kitui/Mwingi & northern Kilifi" },
+  { name: "Lamu – Witu – Garsen & Lamu Port Access", length: "113 km + 10 km", counties: "Lamu & Tana River", status: "Constructed; rehabilitation flagged 2025", relevance: "Hindi fringe already KES 6M/ac; opportunity lies inland toward Witu/Garsen" },
+  { name: "Isiolo – Moyale & Isiolo – Lokichar – Nadapal", length: "505 km + 700 km", counties: "Isiolo, Marsabit, Turkana", status: "Moyale OSBP open; Nadapal active FY25", relevance: "Regional LAPSSET trade arteries; limited private freehold supply" },
+  { name: "Isiolo – Kulamawe – Modogashe & Garbatulla Spur (A13)", length: "77 + 128 km", counties: "Isiolo & Garissa", status: "Ongoing/active + fibre ducting", relevance: "Horn of Africa Gateway; verify freehold vs community land tenure" },
+  { name: "Wajir – Tarbaj (A13) & Tarbaj Spur", length: "Unspecified", counties: "Wajir (60m road reserve spec)", status: "Ongoing/active development", relevance: "Frontier logistics corridor" },
+  { name: "Mombasa – Mtwapa – Kwa Kadzengo – Kilifi (& Jomvu)", length: "54 km (Kilifi)", counties: "Mombasa & Kilifi", status: "Ongoing/active dualing & capacity", relevance: "Pushes coastal urban expansion northward toward Malindi & Magarini" },
+  { name: "Dongo Kundu Bypass & SEZ Access", length: "15.82 + 4.6 km", counties: "Mombasa & Kwale", status: "Active/noteworthy progress", relevance: "Connects southern Kwale/Kinango hinterland to Mombasa Port" },
+  { name: "Kwale – Kinango; Marikebuni–Marafa–Sosoni & Baricho Bridge", length: "29 km + Magarini", counties: "Kwale & Kilifi (Magarini)", status: "Kwale–Kinango active; Marafa/Baricho funded", relevance: "Directly services Tier 1 cheap titled parcels in Marafa/Dakacha/Adu (KES 80k–95k/ac)" },
+  { name: "Barpello (Moru) – Tot – Marich Pass & Marsabit – Maikona", length: "124.5 + 97.8 km", counties: "Baringo, Elgeyo Marakwet, West Pokot, Marsabit", status: "Ongoing GoK projects", relevance: "Improves northern Rift integration north of Mogotio (KES 160k/ac)" },
+  { name: "Mau Mau Roads & Central Region Upgrades", length: "503+ km", counties: "Nyeri, Murang'a, Kiambu, Nyandarua, Kirinyaga", status: "Ongoing GoK projects", relevance: "High-priced mature central belt; unsuitable for cheap bulk banking" },
+  { name: "Mamboleo–Chemelil–Kipsitet; Isebania–Kisii–Ahero; Kitale–Suam", length: "60 km + regional", counties: "Kisumu, Kericho, Migori, Kisii, Trans Nzoia", status: "Ongoing / noteworthy FY25 progress", relevance: "Supports western regional hubs; requires off-portal land sourcing" },
+  { name: "Outer Ring Jnc–Kamulu–Komarock & Athi River–Machakos", length: "Unspecified", counties: "Nairobi East & Machakos", status: "Ongoing capacity upgrades", relevance: "Accelerates Nairobi eastern spillover toward Matuu/Yatta/Katangi (KES 350k–550k/ac)" }
+];
+
+const checklistData = [
+  { week: "Week 1", title: "Official Lands Registry Search (Ardhisasa / Registry)", cost: "KES 500–2,000", detail: "Verify exact title number, Registry Index Map (RIM), charges, cautions, and 'subject to road reserve' endorsements. Reject untitled adjudication numbers unless freehold registration is confirmed." },
+  { week: "Weeks 2–3", title: "LSBK Licensed Surveyor Field Audit", cost: "KES 15,000–40,000", detail: "Confirm physical beacons with GPS coordinates, measure setbacks from road centerline, and check for unregistered public footpaths or seasonal riparian waterways." },
+  { week: "Weeks 3–4", title: "County Physical Planning Spatial Verification", cost: "KES 500–2,000", detail: "Inspect County Spatial Plan zoning, minimum subdivision sizes, and county-level road expansion plans." },
+  { week: "Weeks 3–4", title: "KeNHA / KURA Corridor Reserve Confirmation", cost: "KES 0–1,000", detail: "Submit written inquiry to KeNHA (Class S, A, B) for official road-reserve maps and confirm whether any Resettlement Action Plan (RAP) alignment crosses the parcel." },
+  { week: "Weeks 4–5", title: "Utility & Rail Wayleave Searches + LCB Consent", cost: "KES 500–2,000/utility", detail: "Query Kenya Power, water boards, fiber operators, and Kenya Railways for unrecorded easements before applying for Land Control Board consent and Stamp Duty assessment." }
+];
+
+let currentCohort = 'A';
+let currentTierFilter = 'ALL';
+let compoundingChartInstance = null;
+let landPriceChartInstance = null;
+let roadPipelineChartInstance = null;
+
+function formatKES(num) {
+  if (num >= 1000000) return "KES " + (num / 1000000).toFixed(2) + "M";
+  return "KES " + Math.round(num).toLocaleString();
+}
+
+function setCohort(cohort) {
+  currentCohort = cohort;
+  const btnA = document.getElementById('cohortABtn');
+  const btnB = document.getElementById('cohortBBtn');
+  if (cohort === 'A') {
+    btnA.className = "p-3 rounded-lg border text-left transition-all bg-[#1B4332] text-white border-[#1B4332] cursor-pointer";
+    btnB.className = "p-3 rounded-lg border text-left transition-all bg-white text-stone-700 border-stone-300 hover:border-[#1B4332] cursor-pointer";
+    document.getElementById('corridorSelect').selectedIndex = 0;
+  } else {
+    btnB.className = "p-3 rounded-lg border text-left transition-all bg-[#1B4332] text-white border-[#1B4332] cursor-pointer";
+    btnA.className = "p-3 rounded-lg border text-left transition-all bg-white text-stone-700 border-stone-300 hover:border-[#1B4332] cursor-pointer";
+    document.getElementById('corridorSelect').selectedIndex = 2;
+  }
+  updateSimulator();
+}
+
+function updateSimulator() {
+  const budget = parseFloat(document.getElementById('budgetSlider').value);
+  const pricePerAcre = parseFloat(document.getElementById('corridorSelect').value);
+  const cagr = parseFloat(document.getElementById('cagrSlider').value) / 100;
+
+  document.getElementById('budgetDisplay').textContent = `KES ${budget.toLocaleString()} (USD ${Math.round(budget / 130.05).toLocaleString()})`;
+
+  let cagrLabel = "Baseline Rural Growth";
+  if (cagr >= 0.20) cagrLabel = "Highway Junction + Commercial";
+  else if (cagr >= 0.18) cagrLabel = "Tarmac + 50x100 Subdivision";
+  else if (cagr >= 0.15) cagrLabel = "Confirmed KeNHA Tarmac";
+  else if (cagr >= 0.12) cagrLabel = "County Grading & Sprawl";
+  document.getElementById('cagrDisplay').textContent = `${(cagr * 100).toFixed(1)}% (${cagrLabel})`;
+
+  const netLandBudget = Math.max(0, (budget - 75000) / 1.02);
+  const acres = netLandBudget / pricePerAcre;
+
+  const mult15 = Math.pow(1 + cagr, 15);
+  const mult20 = Math.pow(1 + cagr, 20);
+  const val15 = budget * mult15;
+  const val20 = budget * mult20;
+
+  document.getElementById('acresResult').textContent = `${acres.toFixed(1)} Acres`;
+  document.getElementById('val15Result').textContent = formatKES(val15);
+  document.getElementById('mult15Result').textContent = `${mult15.toFixed(2)}x Multiple`;
+  document.getElementById('val20Result').textContent = formatKES(val20);
+  document.getElementById('mult20Result').textContent = `${mult20.toFixed(2)}x Multiple`;
+
+  const recBox = document.getElementById('cohortRecommendation');
+  if (currentCohort === 'A') {
+    recBox.innerHTML = `<strong>Cohort A Strategy (Ages 9m–3yrs &bull; Maturing 2043–2046):</strong> With a 17-to-20-year runway, prioritize deep-discount Tier 1 titled acreage (<strong>Kilifi Magarini @ KES 80k–95k/ac</strong> or <strong>Kitui Mutomo/Ikutha @ KES 60k–75k/ac</strong>) along pre-feasibility Corridor 1 or B61/A3. Plant low-maintenance agroforestry trees or pasture seed to secure boundaries.`;
+  } else {
+    recBox.innerHTML = `<strong>Cohort B Strategy (Ages 4–7yrs &bull; Maturing ~2041):</strong> With a tighter 15-year window to university/career milestones, tilt toward Tier 2 agribusiness corridors near active tarmac (<strong>Mogotio @ KES 160k/ac</strong>, <strong>Mashuru @ KES 300k–350k/ac</strong>, or <strong>Narok–Bomet @ KES 300k–350k/ac</strong>) to earn KES 7k–15k/ac/yr interim lease income and ensure earlier resale liquidity.`;
+  }
+
+  const years = [];
+  const seriesData = [];
+  const baseData = [];
+  for (let y = 0; y <= 20; y += 2) {
+    years.push((2026 + y).toString());
+    seriesData.push(Math.round(budget * Math.pow(1 + cagr, y)));
+    baseData.push(Math.round(budget * Math.pow(1.08, y)));
+  }
+
+  if (compoundingChartInstance) {
+    compoundingChartInstance.data.labels = years;
+    compoundingChartInstance.data.datasets[0].label = `Selected ${(cagr * 100).toFixed(0)}% CAGR Trajectory`;
+    compoundingChartInstance.data.datasets[0].data = seriesData;
+    compoundingChartInstance.data.datasets[1].data = baseData;
+    compoundingChartInstance.update();
+  }
+}
+
+function initCharts() {
+  const ctx1 = document.getElementById('compoundingChart').getContext('2d');
+  compoundingChartInstance = new Chart(ctx1, {
+    type: 'line',
+    data: {
+      labels: [],
+      datasets: [
+        {
+          label: 'Selected 15% CAGR Trajectory',
+          data: [],
+          borderColor: '#1B4332',
+          backgroundColor: 'rgba(27, 67, 50, 0.12)',
+          fill: true,
+          tension: 0.3,
+          borderWidth: 2.5,
+          pointRadius: 3
+        },
+        {
+          label: '8% Baseline (No Tarmac)',
+          data: [],
+          borderColor: '#B45309',
+          borderDash: [5, 5],
+          fill: false,
+          tension: 0.3,
+          borderWidth: 2,
+          pointRadius: 2
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: (ctx) => `${ctx.dataset.label}: KES ${ctx.parsed.y.toLocaleString()}`
+          }
+        }
+      },
+      scales: {
+        y: {
+          ticks: {
+            callback: (val) => 'KES ' + (val / 1000000).toFixed(1) + 'M',
+            font: { size: 11 }
+          }
+        },
+        x: {
+          ticks: { font: { size: 11 } }
+        }
+      }
+    }
+  });
+
+  const ctx2 = document.getElementById('landPriceChart').getContext('2d');
+  landPriceChartInstance = new Chart(ctx2, {
+    type: 'bar',
+    data: {
+      labels: [
+        ['Kitui Mutomo/', 'Ikutha (Titled)'],
+        ['Kilifi Marafa/', 'Dakacha (Titled)'],
+        ['Baringo Mogotio', '(Agribusiness)'],
+        ['Narok Mai Mahiu', '– Duka Moja'],
+        ['Kitui Mwingi', 'Ngomeni (A3)'],
+        ['Kajiado Mashuru', '/ Imaroro'],
+        ['Narok–Bomet', 'Wheat Belt'],
+        ['Narok Oldonyorasha', '(Narosura Rd)'],
+        ['Kilifi Malindi–', 'Marafa Frontage'],
+        ['Narok Ololulunga', '/ Olepolos']
+      ],
+      datasets: [
+        {
+          label: 'Low Quote (KES \'000/ac)',
+          data: [60, 80, 160, 230, 245, 300, 300, 380, 450, 500],
+          backgroundColor: '#2D6A4F',
+          borderRadius: 4
+        },
+        {
+          label: 'High Quote (KES \'000/ac)',
+          data: [75, 95, 160, 230, 250, 350, 350, 380, 450, 550],
+          backgroundColor: '#B45309',
+          borderRadius: 4
+        }
+      ]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: (ctx) => `${ctx.dataset.label}: KES ${(ctx.parsed.x * 1000).toLocaleString()}/acre`
+          }
+        }
+      },
+      scales: {
+        x: {
+          title: { display: true, text: 'Asking Price per Acre (KES Thousands)', font: { size: 11 } },
+          ticks: { font: { size: 10 } }
+        },
+        y: {
+          ticks: { font: { size: 10 } }
+        }
+      }
+    }
+  });
+
+  const ctx3 = document.getElementById('roadPipelineChart').getContext('2d');
+  roadPipelineChartInstance = new Chart(ctx3, {
+    type: 'bar',
+    data: {
+      labels: [
+        ['FY24/25 New Rd', 'Target (KeNHA)'],
+        ['FY24/25 Actual', 'Built (37.4%)'],
+        ['Pre-Feasibility', 'Corridors 1 & 2'],
+        ['Draft Design', 'Priority Links'],
+        ['A14 Dif–Wajir', '–Moyale Draft'],
+        ['A3 Kitui–Ukasi', '–Garissa Draft'],
+        ['B61 Katulani', '–Wote Final']
+      ],
+      datasets: [
+        {
+          label: 'Kilometers (km)',
+          data: [415.9, 155.4, 811, 750, 250, 240, 100],
+          backgroundColor: ['#94A3B8', '#B45309', '#1B4332', '#2D6A4F', '#40916C', '#52B788', '#74C69D'],
+          borderRadius: 5
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => `${ctx.parsed.y.toLocaleString()} km`
+          }
+        }
+      },
+      scales: {
+        y: {
+          title: { display: true, text: 'Kilometers (km)', font: { size: 11 } },
+          ticks: { font: { size: 10 } }
+        },
+        x: {
+          ticks: { font: { size: 10 } }
+        }
+      }
+    }
+  });
+}
+
+function filterLand(tier) {
+  currentTierFilter = tier;
+  document.querySelectorAll('.tier-btn').forEach(btn => {
+    btn.className = "tier-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-stone-100 text-stone-700 hover:bg-stone-200 cursor-pointer";
+  });
+  const activeBtn = document.getElementById('tierBtn' + tier);
+  if (activeBtn) {
+    activeBtn.className = "tier-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#1B4332] text-white cursor-pointer";
+  }
+  renderLandTable();
+}
+
+function renderLandTable() {
+  const query = document.getElementById('landSearch').value.toLowerCase();
+  const tbody = document.getElementById('landTableBody');
+  const filtered = landData.filter(item => {
+    const matchesTier = currentTierFilter === 'ALL' || item.tier === currentTierFilter;
+    const matchesQuery = item.county.toLowerCase().includes(query) ||
+                         item.locality.toLowerCase().includes(query) ||
+                         item.catalyst.toLowerCase().includes(query) ||
+                         item.status.toLowerCase().includes(query);
+    return matchesTier && matchesQuery;
+  });
+
+  tbody.innerHTML = filtered.map(row => {
+    let badgeClass = "bg-emerald-100 text-emerald-900";
+    if (row.tier === "Tier 2") badgeClass = "bg-sky-100 text-sky-900";
+    else if (row.tier === "Tier 3") badgeClass = "bg-stone-200 text-stone-800";
+    else if (row.tier === "Frontier") badgeClass = "bg-amber-100 text-amber-900";
+
+    return `
+      <tr class="hover:bg-stone-50 transition-colors">
+        <td class="px-3 py-2.5 whitespace-nowrap"><span class="px-2 py-0.5 rounded font-bold text-[11px] ${badgeClass}">${row.tier}</span></td>
+        <td class="px-3 py-2.5"><div class="font-bold text-stone-900">${row.county}</div><div class="text-stone-600">${row.locality}</div></td>
+        <td class="px-3 py-2.5 whitespace-nowrap text-stone-700">${row.size}</td>
+        <td class="px-3 py-2.5 whitespace-nowrap font-bold text-[#1B4332]">${row.kes}</td>
+        <td class="px-3 py-2.5 whitespace-nowrap text-stone-600">${row.usd}</td>
+        <td class="px-3 py-2.5 text-stone-700">${row.status}</td>
+        <td class="px-3 py-2.5 text-stone-600">${row.catalyst}</td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function switchRoadTab(tab) {
+  const unbuiltBtn = document.getElementById('roadTabUnbuilt');
+  const activeBtn = document.getElementById('roadTabActive');
+  const tbody = document.getElementById('roadTableBody');
+  const rows = tab === 'unbuilt' ? unbuiltRoads : activeRoads;
+
+  if (tab === 'unbuilt') {
+    unbuiltBtn.className = "px-4 py-2 rounded-lg text-xs font-bold bg-[#1B4332] text-white cursor-pointer";
+    activeBtn.className = "px-4 py-2 rounded-lg text-xs font-bold bg-stone-100 text-stone-700 hover:bg-stone-200 cursor-pointer";
+  } else {
+    activeBtn.className = "px-4 py-2 rounded-lg text-xs font-bold bg-[#1B4332] text-white cursor-pointer";
+    unbuiltBtn.className = "px-4 py-2 rounded-lg text-xs font-bold bg-stone-100 text-stone-700 hover:bg-stone-200 cursor-pointer";
+  }
+
+  tbody.innerHTML = rows.map(r => `
+    <tr class="hover:bg-stone-50 transition-colors">
+      <td class="px-3 py-2.5 font-bold text-stone-900">${r.name}</td>
+      <td class="px-3 py-2.5 whitespace-nowrap font-semibold text-[#1B4332]">${r.length}</td>
+      <td class="px-3 py-2.5 text-stone-700">${r.counties}</td>
+      <td class="px-3 py-2.5"><span class="px-2 py-0.5 rounded bg-amber-50 border border-amber-200 text-amber-900 font-medium">${r.status}</span></td>
+      <td class="px-3 py-2.5 text-stone-600">${r.relevance}</td>
+    </tr>
+  `).join('');
+}
+
+function switchExecTab(tab) {
+  const tabs = ['trust', 'arbitrage', 'reserves', 'checklist'];
+  tabs.forEach(t => {
+    const btn = document.getElementById('execTab' + t.charAt(0).toUpperCase() + t.slice(1));
+    const panel = document.getElementById('execContent' + t.charAt(0).toUpperCase() + t.slice(1));
+    if (t === tab) {
+      btn.className = "px-3.5 py-2 rounded-lg text-xs font-bold bg-[#1B4332] text-white cursor-pointer";
+      panel.classList.remove('hidden');
+    } else {
+      btn.className = "px-3.5 py-2 rounded-lg text-xs font-bold bg-stone-100 text-stone-700 hover:bg-stone-200 cursor-pointer";
+      panel.classList.add('hidden');
+    }
+  });
+}
+
+function renderChecklist() {
+  const container = document.getElementById('checklistItems');
+  container.innerHTML = checklistData.map((item, idx) => `
+    <label class="flex items-start gap-3 p-3.5 rounded-xl bg-[#FAF8F5] border border-stone-200 hover:border-[#1B4332] cursor-pointer transition-colors">
+      <input type="checkbox" class="mt-1 w-4 h-4 accent-[#1B4332] cursor-pointer">
+      <div class="flex-1 text-xs">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <span class="font-bold text-stone-900">${idx + 1}. ${item.title}</span>
+          <span class="px-2 py-0.5 rounded bg-white border border-stone-300 text-stone-700 font-semibold">${item.week} &bull; ${item.cost}</span>
+        </div>
+        <p class="text-stone-600 mt-1 leading-relaxed">${item.detail}</p>
+      </div>
+    </label>
+  `).join('');
+}
+
+function exportToWord() {
+  const wordHtml = `
+    <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+    <head><meta charset='utf-8'><title>Kenya Generational Land-Banking & Proposed Road Corridors Report</title>
+    <style>
+      body { font-family: Calibri, Arial, sans-serif; font-size: 11pt; line-height: 1.45; color: #1E293B; }
+      h1 { font-size: 18pt; color: #1B4332; border-bottom: 2px solid #1B4332; padding-bottom: 6px; }
+      h2 { font-size: 14pt; color: #1B4332; margin-top: 20px; }
+      h3 { font-size: 12pt; color: #2D6A4F; margin-top: 14px; }
+      table { width: 100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 16px; font-size: 9.5pt; }
+      th { background-color: #1B4332; color: #FFFFFF; font-weight: bold; text-align: left; padding: 6px 8px; border: 1px solid #CBD5E1; }
+      td { padding: 6px 8px; border: 1px solid #CBD5E1; vertical-align: top; }
+      tr:nth-child(even) td { background-color: #F8FAFC; }
+      .callout { background-color: #F0FDF4; border-left: 4px solid #1B4332; padding: 10px; margin: 12px 0; }
+    </style>
+    </head>
+    <body>
+      <h1>Infrastructure-Led Bulk Land-Banking Strategy in Kenya for a 15-to-20-Year Generational Hold (2026–2046)</h1>
+      <p><strong>Prepared for:</strong> Generational Land Portfolio (Children Aged 9 Months to 7 Years) | <strong>FX Benchmark:</strong> USD 1 = KES 130.05 (November 2026)</p>
+      
+      <div class="callout">
+        <strong>Executive Summary:</strong> Targeting Kenya's lowest-cost titled acreage along undeveloped and design-stage national trunk roads offers an infrastructure-led entry point for children aged 9 months to 7 years. Over a 15-to-20-year hold (2026–2046), a 9-month-old reaches ages 16–21 while a 7-year-old reaches ages 22–27. Seller-advertised bulk farmland with title deeds starts at <strong>KES 60,000–75,000 per acre (USD 461–577)</strong> in Kitui's Mutomo/Ikutha interior and <strong>KES 80,000–100,000 per acre (USD 615–769)</strong> in Kilifi's Magarini/Marafa hinterland, stepping up to <strong>KES 160,000–450,000 per acre</strong> in Baringo, Taita Taveta, Narok, Laikipia West, and Kajiado East. Because KeNHA achieved only 155.4 km of new construction against a 415.9 km target (37.4%) in FY 2024/2025, slow public execution keeps hinterland prices discounted while leaving two decades for pre-feasibility (811 km) and design-stage corridors to reach paving.
+      </div>
+
+      <h2>1. Directory of Cheapest Bulk Land Markets in Kenya (Table 1)</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Tier</th>
+            <th>County &amp; Sub-County</th>
+            <th>Exact Locality / Ward</th>
+            <th>Typical Bulk Size</th>
+            <th>Title &amp; Access Status</th>
+            <th>Price/Acre (KES)</th>
+            <th>Price/Acre (USD)</th>
+            <th>Primary Value Catalyst &amp; Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${landData.filter(d => d.tier !== 'Frontier').map(d => `
+            <tr>
+              <td>${d.tier}</td>
+              <td>${d.county}</td>
+              <td>${d.locality}</td>
+              <td>${d.size}</td>
+              <td>${d.status}</td>
+              <td>${d.kes}</td>
+              <td>${d.usd}</td>
+              <td>${d.catalyst}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+
+      <h2>2. Frontier &amp; Western Counties Lacking Open-Market Freehold Benchmarks (Table 2)</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Region / Counties</th>
+            <th>Market Data Observed in Surveyed Sources</th>
+            <th>Adjacent KeNHA / National Trunk Road Projects</th>
+            <th>Field Scouting Implication</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${landData.filter(d => d.tier === 'Frontier').map(d => `
+            <tr>
+              <td>${d.county} (${d.locality})</td>
+              <td>${d.kes} (${d.size})</td>
+              <td>${d.catalyst}</td>
+              <td>${d.status}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+
+      <h2>3. Undeveloped, Pre-Feasibility &amp; Design-Stage KeNHA Projects (Table 3)</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Corridor / Project Name</th>
+            <th>Length</th>
+            <th>Counties &amp; Alignment</th>
+            <th>KeNHA Status (FY 2024/2025)</th>
+            <th>Paired Bulk Land Value &amp; Timing</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${unbuiltRoads.map(r => `
+            <tr>
+              <td>${r.name}</td>
+              <td>${r.length}</td>
+              <td>${r.counties}</td>
+              <td>${r.status}</td>
+              <td>${r.relevance}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+
+      <h2>4. Active &amp; Ongoing National Trunk, LAPSSET &amp; Regional Roads (Table 4)</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Road / Corridor Name</th>
+            <th>Length</th>
+            <th>Counties &amp; Alignment</th>
+            <th>Reported Execution Status</th>
+            <th>Strategic Relevance</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${activeRoads.map(r => `
+            <tr>
+              <td>${r.name}</td>
+              <td>${r.length}</td>
+              <td>${r.counties}</td>
+              <td>${r.status}</td>
+              <td>${r.relevance}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+
+      <h2>5. Wholesale-to-Retail Arbitrage &amp; Compounding Scenarios (Tables 5 &amp; 6)</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Corridor / Market</th>
+            <th>Retail 50x100 Plot Price</th>
+            <th>Gross Acre Equivalent (8 Plots)</th>
+            <th>Bulk Farmland Benchmark</th>
+            <th>Gross Multiple (Before Costs)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Machakos Outer (Matuu / Masinga / Kivandini)</td><td>KES 195,000–500,000</td><td>KES 1,560,000–4,000,000</td><td>KES 550,000/ac (Kithyoko)</td><td>2.8x – 7.3x</td></tr>
+          <tr><td>Narok County (Narok Town vs Narok–Bomet Bulk)</td><td>KES 650,000–1,400,000</td><td>KES 5,200,000–11,200,000</td><td>KES 300,000–350,000/ac</td><td>14.9x – 32.0x</td></tr>
+          <tr><td>Kilifi County (Vipingo/Adu Luxury vs Marafa/Adu Bulk)</td><td>KES 1,950,000</td><td>KES 15,600,000</td><td>KES 80,000–100,000/ac</td><td>156.0x (Luxury spread)</td></tr>
+        </tbody>
+      </table>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Assumed Nominal CAGR</th>
+            <th>15-Yr Multiple (2041)</th>
+            <th>15-Yr Value on KES 2M</th>
+            <th>20-Yr Multiple (2046)</th>
+            <th>20-Yr Value on KES 2M</th>
+            <th>Underlying Corridor Trajectory</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>8.0%</td><td>3.17x</td><td>KES 6,340,000</td><td>4.66x</td><td>KES 9,320,000</td><td>Baseline inflation/rural growth; road unbuilt</td></tr>
+          <tr><td>12.0%</td><td>5.47x</td><td>KES 10,940,000</td><td>9.65x</td><td>KES 19,300,000</td><td>Gradual county grading &amp; population sprawl</td></tr>
+          <tr><td>15.0%</td><td>8.14x</td><td>KES 16,280,000</td><td>16.37x</td><td>KES 32,740,000</td><td>Confirmed KeNHA tarmacking connects block to market</td></tr>
+          <tr><td>18.0%</td><td>11.97x</td><td>KES 23,940,000</td><td>27.39x</td><td>KES 54,780,000</td><td>Tarmac completion + 50x100 retail subdivision</td></tr>
+          <tr><td>20.0%</td><td>15.41x</td><td>KES 30,820,000</td><td>38.34x</td><td>KES 76,680,000</td><td>Major highway junction + commercial frontage rezoning</td></tr>
+        </tbody>
+      </table>
+
+      <h2>6. Legal Ownership Structure for Minors &amp; Road Reserve Standards (Tables 7 &amp; 8)</h2>
+      <p><strong>Recommended Vehicle:</strong> Incorporate a non-trading <strong>Registered Family Trust (Cap 164)</strong> within the 60-day statutory Registry window (KES 500 duty) so title vests in a perpetual body corporate, bypassing court probate and preventing minor repudiation at age 18 under Section 49 of the Land Registration Act.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Road Class / Corridor</th>
+            <th>Official Design Manual / KeNHA Spec</th>
+            <th>Conservative Field Surveyor Guideline</th>
+            <th>Regulatory Rule</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Class S &amp; Class A (International Trunk)</td><td>60m total (Wajir–Tarbaj A13 tender; RDM urban arterial 60m)</td><td>Up to 60m from centerline (120m total)</td><td>KeNHA General Regulations 2025 mandate DG approval for access roads &amp; pipe crossings</td></tr>
+          <tr><td>Class B (National Trunk)</td><td>60m desirable / 40m reduced</td><td>45m benchmark</td><td>Physical &amp; Land Use Planning Act 2019 prohibits reserve structures</td></tr>
+          <tr><td>Class C (Primary / Secondary)</td><td>40m desirable</td><td>30m benchmark</td><td>KeNHA / KeRRA depending on classification register</td></tr>
+          <tr><td>Class D &amp; E (Minor / Access)</td><td>Variable narrower standards</td><td>Class D: 20m; Class E: 15m</td><td>KeRRA / KURA / County Governments</td></tr>
+          <tr><td>Railways &amp; Utility Wayleaves</td><td>Verify markers &amp; easements</td><td>Railways: 30m each side (60m total); Utilities: 5–30m</td><td>Kenya Railways, Kenya Power, Water &amp; Telecom operators</td></tr>
+        </tbody>
+      </table>
+
+      <h2>7. Capital Allocation Matrix &amp; 5-Week Verification Protocol (Table 9)</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Child Cohort &amp; Hold Window</th>
+            <th>Budget Tier</th>
+            <th>Priority Counties &amp; Corridors</th>
+            <th>Indicative Net Acreage</th>
+            <th>Execution Plan</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Cohort A: Ages 9m–3yrs (17–20 Yr Hold)</td><td>KES 1.5M–2.5M (USD 11.5k–19.2k)</td><td>Kilifi Magarini (KES 80k–95k/ac) or Kitui Mutomo/Ikutha (KES 60k–75k/ac)</td><td>~15–40 titled acres</td><td>Register Family Trust; buy single contiguous block feeding Corridor 1 or B61/A3; plant trees/pasture.</td></tr>
+          <tr><td>Cohort B: Ages 4–7yrs (15 Yr Hold)</td><td>KES 1.5M–2.5M (USD 11.5k–19.2k)</td><td>Mogotio (KES 160k/ac), Taveta Mata (~KES 200k/ac), or Mashuru (KES 300k–350k/ac)</td><td>~4–15 titled acres</td><td>Prioritize agribusiness land within 3–8 km of active tarmac for lease income &amp; 2041 liquidity.</td></tr>
+          <tr><td>Combined Multi-Child Portfolio</td><td>KES 5M–10M (USD 38.4k–76.9k)</td><td>50/50 Barbell: Kilifi Magarini (KES 80k–95k/ac) + Narok (KES 300k–550k/ac)</td><td>~25–60 ac Coastal + ~4–16 ac Rift</td><td>Hold inside one Family Trust with staggered vesting (age 25); use Narok wheat leases to fund Kilifi upkeep.</td></tr>
+          <tr><td>Extended Family / Scale Pool</td><td>KES 20M+ (USD 153.8k+)</td><td>Frontage + Hinterland Pair (Malindi–Marafa Rd @ KES 450k/ac or Mwingi/Kitui A3)</td><td>~44–240+ titled acres</td><td>Reserve frontage within 600m of highway (outside 60m reserve) for future KeNHA Roadside Station.</td></tr>
+        </tbody>
+      </table>
+      <h3>5-Week Pre-Purchase Due Diligence Checklist (KES 18,000–53,000 Excl. Advocate Fees)</h3>
+      <ol>
+        ${checklistData.map(c => `<li><strong>${c.title} (${c.week} &bull; ${c.cost}):</strong> ${c.detail}</li>`).join('')}
+      </ol>
+    </body>
+    </html>
+  `;
+
+  const blob = new Blob(['\ufeff', wordHtml], { type: 'application/msword' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'Kenya_Cheap_Land_and_Proposed_Road_Corridors_Report.doc';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  initCharts();
+  updateSimulator();
+  renderLandTable();
+  switchRoadTab('unbuilt');
+  renderChecklist();
+});
+</script>
+</body>
+</html>
